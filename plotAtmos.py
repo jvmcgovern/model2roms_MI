@@ -1,6 +1,7 @@
 import os
 from pylab import *
 
+
 def contourMap(grdROMS, tlon, tlat, mydata1, mydata2, mydata3, var, mytype, currentdate):
 
     plt.figure(figsize=(10,10), frameon=False)

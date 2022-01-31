@@ -7,6 +7,8 @@ import extrapolate as ex
 import numpy as np
 
 try:
+    # import ESMF  # didn't work, capital letters may not work
+    # import esmf
     import ESMF
 except ImportError:
     logging.error("[M2R_interp2D] Could not find module ESMF")

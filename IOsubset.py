@@ -29,11 +29,11 @@ def find_subset_indices(grdMODEL, min_lat, max_lat, min_lon, max_lon):
     """
 
     if min_lon < 0 and max_lon > 0:
-        splitExtract = True;
+        splitExtract = True
         Turns = 2
         grdMODEL.splitExtract = splitExtract
     else:
-        splitExtract = False;
+        splitExtract = False
         Turns = 1
         grdMODEL.splitExtract = splitExtract
         grdMODEL.lon = np.where(grdMODEL.lon > 180, grdMODEL.lon - 360, grdMODEL.lon)
@@ -47,15 +47,15 @@ def find_subset_indices(grdMODEL, min_lat, max_lat, min_lon, max_lon):
     for k in range(Turns):
 
         if k == 0 and splitExtract == True:
-            minLon = min_lon;
+            minLon = min_lon
             maxLon = 0
             minLon = minLon + 360
             maxLon = maxLon + 360
         elif k == 1 and splitExtract == True:
-            minLon = 0;
+            minLon = 0
             maxLon = max_lon
         else:
-            minLon = min_lon;
+            minLon = min_lon
             maxLon = max_lon
 
         distances1 = []
@@ -96,10 +96,10 @@ def find_subset_indices(grdMODEL, min_lat, max_lat, min_lon, max_lon):
         minI = indices[3][2]
         maxI = indices[2][2]
 
-        res[k, 0] = minI;
-        res[k, 1] = maxI;
-        res[k, 2] = minJ;
-        res[k, 3] = maxJ;
+        res[k, 0] = minI
+        res[k, 1] = maxI
+        res[k, 2] = minJ
+        res[k, 3] = maxJ
 
     # Save final product: max_lat_indices,min_lat_indices,max_lon_indices,min_lon_indices
     grdMODEL.indices = res
@@ -108,16 +108,16 @@ def find_subset_indices(grdMODEL, min_lat, max_lat, min_lon, max_lon):
 def checkDomain(grdMODEL, grdROMS):
     lonCHECK = False
     latCHECK = False
-    if (grdMODEL.lon.min() <= grdROMS.lon_rho.min() and grdMODEL.lon.max() >= grdROMS.lon_rho.max()):
+    if grdMODEL.lon.min() <= grdROMS.lon_rho.min() and grdMODEL.lon.max() >= grdROMS.lon_rho.max():
         lonCHECK = True
-    if (grdMODEL.lat.min() <= grdROMS.lat_rho.min() and grdMODEL.lat.max() >= grdROMS.lat_rho.max()):
+    if grdMODEL.lat.min() <= grdROMS.lat_rho.min() and grdMODEL.lat.max() >= grdROMS.lat_rho.max():
         latCHECK = True
 
     print("\n--------------------------")
     print(("---> Area output files  : (longitude=%3.2f,latitude=%3.2f) to (longitude=%3.2f,latitude=%3.2f)" % (
-    grdROMS.lon_rho.min(), grdROMS.lat_rho.min(), grdROMS.lon_rho.max(), grdROMS.lat_rho.max())))
+        grdROMS.lon_rho.min(), grdROMS.lat_rho.min(), grdROMS.lon_rho.max(), grdROMS.lat_rho.max())))
     print(("---> Area forcing files : (longitude=%3.2f,latitude=%3.2f) to (longitude=%3.2f,latitude=%3.2f)" % (
-    grdMODEL.lon.min(), grdMODEL.lat.min(), grdMODEL.lon.max(), grdMODEL.lat.max())))
+        grdMODEL.lon.min(), grdMODEL.lat.min(), grdMODEL.lon.max(), grdMODEL.lat.max())))
 
     if latCHECK is True and lonCHECK is True:
         print("Domain check passed: Input domain data covers output domain")

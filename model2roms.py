@@ -16,18 +16,21 @@ import forcingFilenames as fc
 import interp2D
 
 try:
-    import ESMF
+    import ESMF  # didn't work, capital letters may not work
+    # import esmf
 except ImportError:
     print("Could not find module ESMF")
     pass
-__author__ = 'Trond Kristiansen'
-__email__ = 'trond.kristiansen@niva.no'
+# __author__ = 'Trond Kristiansen'
+# __email__ = 'trond.kristiansen@niva.no'
+__author__ = 'Joe McGovern, Irish Marine Institute'
+__email__ = 'joe.mcgovern@marine.ie'
 __created__ = datetime(2008, 8, 15)
-__modified__ = datetime(2021, 3, 23)
+__modified__ = datetime(2021, 11, 29)
 __version__ = "1.8"
 __status__ = "Development, modified on 15.08.2008,01.10.2009,07.01.2010, " \
              "15.07.2014, 01.12.2014, 07.08.2015, " \
-             "08.02.2018, 04.03.2019, 13.03.2019, 23.03.2021"
+             "08.02.2018, 04.03.2019, 13.03.2019, 23.03.2021, 29.11.2021"
 
 
 def vertical_interpolation(myvar, array1, array2, grdROMS, grdMODEL):
@@ -190,11 +193,14 @@ def get_time(confM2R, year, month, day, ntime):
     if confM2R.ocean_indata_type == 'SODA3_5DAY':
         filename = fc.getSODA3_5DAYfilename(confM2R, year, month, day, None)
 
-    if confM2R.ocean_indata_type == 'SODAMONTHLY':
-        filename = fc.getSODAMONTHLYfilename(confM2R, year, month, None)
+    # if confM2R.ocean_indata_type == 'SODAMONTHLY':
+    #     filename = fc.getSODAMONTHLYfilename(confM2R, year, month, None)
 
     if confM2R.ocean_indata_type == 'GLORYS':
         filename = fc.get_GLORYS_filename(confM2R, year, month, "So")
+
+    if confM2R.ocean_indata_type == 'IBI':
+        filename = fc.get_IBI_filename(confM2R, year, month, day, "so")
 
     if confM2R.ocean_indata_type == 'NORESM':
         filename = fc.getNORESMfilename(confM2R, year, month, "salnlvl")
@@ -216,15 +222,17 @@ def get_time(confM2R, year, month, day, ntime):
         # calendar = cdf.variables["time"].calendar
         units = cdf.variables["time"].units
         currentdate = datetime(year, month, day)
-        jd = date2num(currentdate, units="days since 1948-01-01 00:00:00", calendar="standard")
+        # jd = date2num(currentdate, units="days since 1948-01-01 00:00:00", calendar="standard")
+        jd = date2num(currentdate, units="hours since 1950-01-01 00:00:00", calendar="standard")
 
     confM2R.grdROMS.time = (jd - jdref)
     confM2R.grdROMS.reftime = jdref
-    confM2R.grdROMS.timeunits = "days since 1948-01-01 00:00:00"
+    # confM2R.grdROMS.timeunits = "days since 1948-01-01 00:00:00"
+    confM2R.grdROMS.timeunits = "days since 1968-05-23 00:00:00"
     cdf.close()
     logging.info("-------------------------------")
     logging.info('Current time of {} file : {}'.format(confM2R.ocean_indata_type,
-                                                         currentdate))
+                                                       currentdate))
     logging.info("-------------------------------")
 
 
@@ -256,9 +264,14 @@ def get_3d_data(confM2R, varname, year, month, day, timecounter):
         data = np.squeeze(cdf.variables[str(confM2R.input_varnames[varN])][0, :, :, :])
         data = np.where(data.mask, confM2R.fillvaluein, data)
 
+    if confM2R.ocean_indata_type == "IBI":
+        myunits = cdf.variables[str(confM2R.input_varnames[varN])].units
+        data = np.squeeze(cdf.variables[str(confM2R.input_varnames[varN])][0, :, :, :])
+        data = np.where(data.mask, confM2R.fillvaluein, data)
+
     cdf.close()
 
-    if varname == 'temperature' and confM2R.ocean_indata_type in ["GLORYS", "NORESM"]:
+    if varname == 'temperature' and confM2R.ocean_indata_type in ["GLORYS", "NORESM", "IBI"]:
 
         if myunits == "degree_Kelvin" or myunits == "K":
             if confM2R.ocean_indata_type in ["GLORYS"]:
@@ -266,6 +279,10 @@ def get_3d_data(confM2R, varname, year, month, day, timecounter):
             data = data - 273.15
 
     if confM2R.ocean_indata_type == "GLORYS":
+        data = np.where(data <= -32767, confM2R.grdROMS.fillval, data)
+        data = np.ma.masked_where(data <= confM2R.grdROMS.fillval, data)
+
+    if confM2R.ocean_indata_type == "IBI":
         data = np.where(data <= -32767, confM2R.grdROMS.fillval, data)
         data = np.ma.masked_where(data <= confM2R.grdROMS.fillval, data)
 
@@ -314,6 +331,10 @@ def get_2d_data(confM2R, myvar, year, month, day, timecounter):
             data = np.where(data.mask, confM2R.grdROMS.fillval, data)
 
         if confM2R.ocean_indata_type == "GLORYS":
+            data = np.squeeze(cdf.variables[str(confM2R.input_varnames[varN])][0, :, :])
+            data = np.where(data.mask, confM2R.grdROMS.fillval, data)
+
+        if confM2R.ocean_indata_type == "IBI":
             data = np.squeeze(cdf.variables[str(confM2R.input_varnames[varN])][0, :, :])
             data = np.where(data.mask, confM2R.grdROMS.fillval, data)
 

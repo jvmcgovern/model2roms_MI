@@ -8,17 +8,20 @@ import configM2R
 import decimateGrid
 import model2roms
 
-__author__ = 'Trond Kristiansen'
-__email__ = 'trond.kristiansen@niva.no'
+# __author__ = 'Trond Kristiansen'
+# __email__ = 'trond.kristiansen@niva.no'
+__author__ = 'Joe McGovern, Irish Marine Institute'
+__email__ = 'joe.mcgovern@marine.ie'
 __created__ = datetime(2009, 1, 30)
-__modified__ = datetime(2021, 7, 27)
+__modified__ = datetime(2021, 12, 17)
 __version__ = "1.6"
-__status__ = "Development"
+__status__ = "Development, modified most recently on 29.11.2021"
 
 """
     Main method for running model2roms
     Start: python runM2R.py 
 """
+
 
 def run():
     logging.basicConfig(level=logging.INFO)
@@ -35,8 +38,8 @@ def run():
 
             clim2bry.writebry(confM2R)
 
-      #  if confM2R.createAtmosForcing:
-      #      atmosForcing.createAtmosFileUV(confM2R)
+        # if confM2R.createAtmosForcing:
+        #     atmosForcing.createAtmosFileUV(confM2R)
 
     if confM2R.decimate_gridfile:
         decimateGrid.createGrid(confM2R.grdROMS, "/Users/trondkr/Projects/KINO/GRID/kino_1600m_18072015.nc",
@@ -48,4 +51,6 @@ def run():
 
     print('Finished ' + time.ctime(time.time()))
 
+
 run()
+

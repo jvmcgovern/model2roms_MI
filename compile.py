@@ -2,13 +2,17 @@ import logging
 import subprocess
 from datetime import datetime
 import os
+import numpy.f2py as f2py
 
-__author__ = 'Trond Kristiansen'
-__email__ = 'me@trondkristiansen.com'
+# __author__ = 'Trond Kristiansen'
+__author__ = 'Joe McGovern, Irish Marine Institute'
+# __email__ = 'me@trondkristiansen.com'
+__email__ = 'joe.mcgovern@marine.ie'
 __created__ = datetime(2009, 11, 11)
-__modified__ = datetime(2018, 4, 5)
+# __modified__ = datetime(2018, 4, 5)
+__modified__ = datetime(2021, 11, 29)
 __version__ = "1.0"
-__status__ = "Development, 11.11.2009, 14.3.2012, 31.5.2012, 5.4.2018"
+__status__ = "Development, 11.11.2009, 14.3.2012, 31.5.2012, 5.4.2018, 29.11.2021"
 
 
 def help():

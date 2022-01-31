@@ -12,16 +12,13 @@ import IOverticalGrid
 
 try:
     import ESMF
+    # import esmf
 except ImportError:
     print("Could not find module ESMF")
     pass
 
-__author__ = 'Trond Kristiansen'
-__email__ = 'me@trondkristiansen.com'
-__created__ = datetime(2008, 12, 9)
-__modified__ = datetime(2021, 3, 23)
 __version__ = "1.5"
-__status__ = "Development"
+__status__ = "Development, most recent modified on 29.11.2021"
 
 
 class Grd:
@@ -91,7 +88,8 @@ class Grd:
                 self.fillval = -1.e+20
             if confM2R.ocean_indata_type == 'GLORYS':
                 self.fillval = 9.96921e+36
-
+            if confM2R.ocean_indata_type == 'IBI':
+                self.fillval = 9.96921e+36
             if confM2R.ocean_indata_type == 'NORESM':
                 # self.h = ds["depth"][:]
                 self.h = np.asarray([0, 5, 10, 15, 20, 25, 30, 40, 50, 62.5, 75, 87.5, 100, 112.5, 125,

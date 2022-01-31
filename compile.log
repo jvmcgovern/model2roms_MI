@@ -1,0 +1,223 @@
+running build
+running config_cc
+unifing config_cc, config, build_clib, build_ext, build commands --compiler options
+running config_fc
+unifing config_fc, config, build_clib, build_ext, build commands --fcompiler options
+running build_src
+build_src
+building extension "barotropic" sources
+f2py options: []
+f2py:> /tmp/tmpmdx5v31f/src.linux-x86_64-3.6/barotropicmodule.c
+creating /tmp/tmpmdx5v31f/src.linux-x86_64-3.6
+Reading fortran codes...
+	Reading file 'barotropic.f90' (format:free)
+Post-processing...
+	Block: barotropic
+			Block: velocity
+				Block: ubar
+				Block: vbar
+Post-processing (stage 2)...
+	Block: barotropic
+		Block: unknown_interface
+			Block: velocity
+				Block: ubar
+				Block: vbar
+Building modules...
+	Building module "barotropic"...
+		Constructing F90 module support for "velocity"...
+			Constructing wrapper function "velocity.ubar"...
+			  outdat = ubar(dat,outdat,z_w,z_wu,[nroms,ii,jj,xi_rho,eta_rho,overwrite_dat,overwrite_outdat,overwrite_z_w,overwrite_z_wu])
+			Constructing wrapper function "velocity.vbar"...
+			  outdat = vbar(dat,outdat,z_w,z_wv,[nroms,ii,jj,xi_rho,eta_rho,overwrite_dat,overwrite_outdat,overwrite_z_w,overwrite_z_wv])
+	Wrote C/API module "barotropic" to file "/tmp/tmpmdx5v31f/src.linux-x86_64-3.6/barotropicmodule.c"
+	Fortran 90 wrappers are saved to "/tmp/tmpmdx5v31f/src.linux-x86_64-3.6/barotropic-f2pywrappers2.f90"
+  adding '/tmp/tmpmdx5v31f/src.linux-x86_64-3.6/fortranobject.c' to sources.
+  adding '/tmp/tmpmdx5v31f/src.linux-x86_64-3.6' to include_dirs.
+copying /home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/f2py/src/fortranobject.c -> /tmp/tmpmdx5v31f/src.linux-x86_64-3.6
+copying /home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/f2py/src/fortranobject.h -> /tmp/tmpmdx5v31f/src.linux-x86_64-3.6
+  adding '/tmp/tmpmdx5v31f/src.linux-x86_64-3.6/barotropic-f2pywrappers2.f90' to sources.
+build_src: building npy-pkg config files
+running build_ext
+customize UnixCCompiler
+customize UnixCCompiler using build_ext
+get_default_fcompiler: matching types: '['gnu95', 'intel', 'lahey', 'pg', 'nv', 'absoft', 'nag', 'vast', 'compaq', 'intele', 'intelem', 'gnu', 'g95', 'pathf95', 'nagfor']'
+customize Gnu95FCompiler
+Found executable /usr/bin/gfortran
+customize Gnu95FCompiler
+customize Gnu95FCompiler using build_ext
+building 'barotropic' extension
+compiling C sources
+C compiler: gcc -pthread -B /home/pete/anaconda3/envs/pyroms_MI/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC
+
+creating /tmp/tmpmdx5v31f/tmp
+creating /tmp/tmpmdx5v31f/tmp/tmpmdx5v31f
+creating /tmp/tmpmdx5v31f/tmp/tmpmdx5v31f/src.linux-x86_64-3.6
+compile options: '-I/tmp/tmpmdx5v31f/src.linux-x86_64-3.6 -I/home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/core/include -I/home/pete/anaconda3/envs/pyroms_MI/include/python3.6m -c'
+gcc: /tmp/tmpmdx5v31f/src.linux-x86_64-3.6/barotropicmodule.c
+gcc: /tmp/tmpmdx5v31f/src.linux-x86_64-3.6/fortranobject.c
+compiling Fortran 90 module sources
+Fortran f77 compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -fPIC -O3 -funroll-loops
+Fortran f90 compiler: /usr/bin/gfortran -Wall -g -fno-second-underscore -fPIC -O3 -funroll-loops
+Fortran fix compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -Wall -g -fno-second-underscore -fPIC -O3 -funroll-loops
+compile options: '-I/tmp/tmpmdx5v31f/src.linux-x86_64-3.6 -I/home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/core/include -I/home/pete/anaconda3/envs/pyroms_MI/include/python3.6m -c'
+extra options: '-J/tmp/tmpmdx5v31f/ -I/tmp/tmpmdx5v31f/'
+gfortran:f90: barotropic.f90
+compiling Fortran sources
+Fortran f77 compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -fPIC -O3 -funroll-loops
+Fortran f90 compiler: /usr/bin/gfortran -Wall -g -fno-second-underscore -fPIC -O3 -funroll-loops
+Fortran fix compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -Wall -g -fno-second-underscore -fPIC -O3 -funroll-loops
+compile options: '-I/tmp/tmpmdx5v31f/src.linux-x86_64-3.6 -I/home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/core/include -I/home/pete/anaconda3/envs/pyroms_MI/include/python3.6m -c'
+extra options: '-J/tmp/tmpmdx5v31f/ -I/tmp/tmpmdx5v31f/'
+gfortran:f90: /tmp/tmpmdx5v31f/src.linux-x86_64-3.6/barotropic-f2pywrappers2.f90
+/usr/bin/gfortran -Wall -g -Wall -g -shared /tmp/tmpmdx5v31f/tmp/tmpmdx5v31f/src.linux-x86_64-3.6/barotropicmodule.o /tmp/tmpmdx5v31f/tmp/tmpmdx5v31f/src.linux-x86_64-3.6/fortranobject.o /tmp/tmpmdx5v31f/barotropic.o /tmp/tmpmdx5v31f/tmp/tmpmdx5v31f/src.linux-x86_64-3.6/barotropic-f2pywrappers2.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5 -lgfortran -o ./barotropic.cpython-36m-x86_64-linux-gnu.so
+Removing build directory /tmp/tmpmdx5v31f
+running build
+running config_cc
+unifing config_cc, config, build_clib, build_ext, build commands --compiler options
+running config_fc
+unifing config_fc, config, build_clib, build_ext, build commands --fcompiler options
+running build_src
+build_src
+building extension "interpolation" sources
+f2py options: []
+f2py:> /tmp/tmpcho75e2k/src.linux-x86_64-3.6/interpolationmodule.c
+creating /tmp/tmpcho75e2k/src.linux-x86_64-3.6
+Reading fortran codes...
+	Reading file 'interpolation.f90' (format:free)
+Post-processing...
+	Block: interpolation
+			Block: interpolation
+				Block: dovertinter
+				Block: rho2u
+				Block: rho2v
+				Block: rotate
+Post-processing (stage 2)...
+	Block: interpolation
+		Block: unknown_interface
+			Block: interpolation
+				Block: dovertinter
+				Block: rho2u
+				Block: rho2v
+				Block: rotate
+Building modules...
+	Building module "interpolation"...
+		Constructing F90 module support for "interpolation"...
+			Constructing wrapper function "interpolation.dovertinter"...
+			  outdat = dovertinter(outdat,dat,bathymetry,zr,zs,[nroms,nsoda,ii,jj,xi_rho,eta_rho,overwrite_outdat,overwrite_dat,overwrite_bathymetry,overwrite_zr,overwrite_zs])
+			Constructing wrapper function "interpolation.rho2u"...
+			  udata = rho2u(udata,rhodata,[ii,jj,kk,overwrite_udata,overwrite_rhodata])
+			Constructing wrapper function "interpolation.rho2v"...
+			  vdata = rho2v(vdata,rhodata,[ii,jj,kk,overwrite_vdata,overwrite_rhodata])
+			Constructing wrapper function "interpolation.rotate"...
+			  urot,vrot = rotate(urot,vrot,u_rho,v_rho,angle,[ii,jj,kk,overwrite_urot,overwrite_vrot,overwrite_u_rho,overwrite_v_rho,overwrite_angle])
+	Wrote C/API module "interpolation" to file "/tmp/tmpcho75e2k/src.linux-x86_64-3.6/interpolationmodule.c"
+	Fortran 90 wrappers are saved to "/tmp/tmpcho75e2k/src.linux-x86_64-3.6/interpolation-f2pywrappers2.f90"
+  adding '/tmp/tmpcho75e2k/src.linux-x86_64-3.6/fortranobject.c' to sources.
+  adding '/tmp/tmpcho75e2k/src.linux-x86_64-3.6' to include_dirs.
+copying /home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/f2py/src/fortranobject.c -> /tmp/tmpcho75e2k/src.linux-x86_64-3.6
+copying /home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/f2py/src/fortranobject.h -> /tmp/tmpcho75e2k/src.linux-x86_64-3.6
+  adding '/tmp/tmpcho75e2k/src.linux-x86_64-3.6/interpolation-f2pywrappers2.f90' to sources.
+build_src: building npy-pkg config files
+running build_ext
+customize UnixCCompiler
+customize UnixCCompiler using build_ext
+get_default_fcompiler: matching types: '['gnu95', 'intel', 'lahey', 'pg', 'nv', 'absoft', 'nag', 'vast', 'compaq', 'intele', 'intelem', 'gnu', 'g95', 'pathf95', 'nagfor']'
+customize Gnu95FCompiler
+Found executable /usr/bin/gfortran
+customize Gnu95FCompiler
+customize Gnu95FCompiler using build_ext
+building 'interpolation' extension
+compiling C sources
+C compiler: gcc -pthread -B /home/pete/anaconda3/envs/pyroms_MI/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC
+
+creating /tmp/tmpcho75e2k/tmp
+creating /tmp/tmpcho75e2k/tmp/tmpcho75e2k
+creating /tmp/tmpcho75e2k/tmp/tmpcho75e2k/src.linux-x86_64-3.6
+compile options: '-I/tmp/tmpcho75e2k/src.linux-x86_64-3.6 -I/home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/core/include -I/home/pete/anaconda3/envs/pyroms_MI/include/python3.6m -c'
+gcc: /tmp/tmpcho75e2k/src.linux-x86_64-3.6/interpolationmodule.c
+gcc: /tmp/tmpcho75e2k/src.linux-x86_64-3.6/fortranobject.c
+compiling Fortran 90 module sources
+Fortran f77 compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -fPIC -O3 -funroll-loops
+Fortran f90 compiler: /usr/bin/gfortran -Wall -g -fno-second-underscore -fPIC -O3 -funroll-loops
+Fortran fix compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -Wall -g -fno-second-underscore -fPIC -O3 -funroll-loops
+compile options: '-I/tmp/tmpcho75e2k/src.linux-x86_64-3.6 -I/home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/core/include -I/home/pete/anaconda3/envs/pyroms_MI/include/python3.6m -c'
+extra options: '-J/tmp/tmpcho75e2k/ -I/tmp/tmpcho75e2k/'
+gfortran:f90: interpolation.f90
+compiling Fortran sources
+Fortran f77 compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -fPIC -O3 -funroll-loops
+Fortran f90 compiler: /usr/bin/gfortran -Wall -g -fno-second-underscore -fPIC -O3 -funroll-loops
+Fortran fix compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -Wall -g -fno-second-underscore -fPIC -O3 -funroll-loops
+compile options: '-I/tmp/tmpcho75e2k/src.linux-x86_64-3.6 -I/home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/core/include -I/home/pete/anaconda3/envs/pyroms_MI/include/python3.6m -c'
+extra options: '-J/tmp/tmpcho75e2k/ -I/tmp/tmpcho75e2k/'
+gfortran:f90: /tmp/tmpcho75e2k/src.linux-x86_64-3.6/interpolation-f2pywrappers2.f90
+/usr/bin/gfortran -Wall -g -Wall -g -shared /tmp/tmpcho75e2k/tmp/tmpcho75e2k/src.linux-x86_64-3.6/interpolationmodule.o /tmp/tmpcho75e2k/tmp/tmpcho75e2k/src.linux-x86_64-3.6/fortranobject.o /tmp/tmpcho75e2k/interpolation.o /tmp/tmpcho75e2k/tmp/tmpcho75e2k/src.linux-x86_64-3.6/interpolation-f2pywrappers2.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5 -lgfortran -o ./interpolation.cpython-36m-x86_64-linux-gnu.so
+Removing build directory /tmp/tmpcho75e2k
+running build
+running config_cc
+unifing config_cc, config, build_clib, build_ext, build commands --compiler options
+running config_fc
+unifing config_fc, config, build_clib, build_ext, build commands --fcompiler options
+running build_src
+build_src
+building extension "extrapolate" sources
+f2py options: []
+f2py:> /tmp/tmp3o2xhrde/src.linux-x86_64-3.6/extrapolatemodule.c
+creating /tmp/tmp3o2xhrde/src.linux-x86_64-3.6
+Reading fortran codes...
+	Reading file 'fill.f90' (format:free)
+Post-processing...
+	Block: extrapolate
+			Block: extrapolate
+				Block: fill
+Post-processing (stage 2)...
+	Block: extrapolate
+		Block: unknown_interface
+			Block: extrapolate
+				Block: fill
+Building modules...
+	Building module "extrapolate"...
+		Constructing F90 module support for "extrapolate"...
+			Constructing wrapper function "extrapolate.fill"...
+			  za = fill(i1,i2,j1,j2,tx,critx,cor,mxs,za,[nx,ny,overwrite_za])
+	Wrote C/API module "extrapolate" to file "/tmp/tmp3o2xhrde/src.linux-x86_64-3.6/extrapolatemodule.c"
+	Fortran 90 wrappers are saved to "/tmp/tmp3o2xhrde/src.linux-x86_64-3.6/extrapolate-f2pywrappers2.f90"
+  adding '/tmp/tmp3o2xhrde/src.linux-x86_64-3.6/fortranobject.c' to sources.
+  adding '/tmp/tmp3o2xhrde/src.linux-x86_64-3.6' to include_dirs.
+copying /home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/f2py/src/fortranobject.c -> /tmp/tmp3o2xhrde/src.linux-x86_64-3.6
+copying /home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/f2py/src/fortranobject.h -> /tmp/tmp3o2xhrde/src.linux-x86_64-3.6
+  adding '/tmp/tmp3o2xhrde/src.linux-x86_64-3.6/extrapolate-f2pywrappers2.f90' to sources.
+build_src: building npy-pkg config files
+running build_ext
+customize UnixCCompiler
+customize UnixCCompiler using build_ext
+get_default_fcompiler: matching types: '['gnu95', 'intel', 'lahey', 'pg', 'nv', 'absoft', 'nag', 'vast', 'compaq', 'intele', 'intelem', 'gnu', 'g95', 'pathf95', 'nagfor']'
+customize Gnu95FCompiler
+Found executable /usr/bin/gfortran
+customize Gnu95FCompiler
+customize Gnu95FCompiler using build_ext
+building 'extrapolate' extension
+compiling C sources
+C compiler: gcc -pthread -B /home/pete/anaconda3/envs/pyroms_MI/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC
+
+creating /tmp/tmp3o2xhrde/tmp
+creating /tmp/tmp3o2xhrde/tmp/tmp3o2xhrde
+creating /tmp/tmp3o2xhrde/tmp/tmp3o2xhrde/src.linux-x86_64-3.6
+compile options: '-I/tmp/tmp3o2xhrde/src.linux-x86_64-3.6 -I/home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/core/include -I/home/pete/anaconda3/envs/pyroms_MI/include/python3.6m -c'
+gcc: /tmp/tmp3o2xhrde/src.linux-x86_64-3.6/extrapolatemodule.c
+gcc: /tmp/tmp3o2xhrde/src.linux-x86_64-3.6/fortranobject.c
+compiling Fortran 90 module sources
+Fortran f77 compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -fPIC -O3 -funroll-loops
+Fortran f90 compiler: /usr/bin/gfortran -Wall -g -fno-second-underscore -fPIC -O3 -funroll-loops
+Fortran fix compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -Wall -g -fno-second-underscore -fPIC -O3 -funroll-loops
+compile options: '-I/tmp/tmp3o2xhrde/src.linux-x86_64-3.6 -I/home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/core/include -I/home/pete/anaconda3/envs/pyroms_MI/include/python3.6m -c'
+extra options: '-J/tmp/tmp3o2xhrde/ -I/tmp/tmp3o2xhrde/'
+gfortran:f90: fill.f90
+compiling Fortran sources
+Fortran f77 compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -fPIC -O3 -funroll-loops
+Fortran f90 compiler: /usr/bin/gfortran -Wall -g -fno-second-underscore -fPIC -O3 -funroll-loops
+Fortran fix compiler: /usr/bin/gfortran -Wall -g -ffixed-form -fno-second-underscore -Wall -g -fno-second-underscore -fPIC -O3 -funroll-loops
+compile options: '-I/tmp/tmp3o2xhrde/src.linux-x86_64-3.6 -I/home/pete/anaconda3/envs/pyroms_MI/lib/python3.6/site-packages/numpy/core/include -I/home/pete/anaconda3/envs/pyroms_MI/include/python3.6m -c'
+extra options: '-J/tmp/tmp3o2xhrde/ -I/tmp/tmp3o2xhrde/'
+gfortran:f90: /tmp/tmp3o2xhrde/src.linux-x86_64-3.6/extrapolate-f2pywrappers2.f90
+/usr/bin/gfortran -Wall -g -Wall -g -shared /tmp/tmp3o2xhrde/tmp/tmp3o2xhrde/src.linux-x86_64-3.6/extrapolatemodule.o /tmp/tmp3o2xhrde/tmp/tmp3o2xhrde/src.linux-x86_64-3.6/fortranobject.o /tmp/tmp3o2xhrde/fill.o /tmp/tmp3o2xhrde/tmp/tmp3o2xhrde/src.linux-x86_64-3.6/extrapolate-f2pywrappers2.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5 -lgfortran -o ./extrapolate.cpython-36m-x86_64-linux-gnu.so
+Removing build directory /tmp/tmp3o2xhrde

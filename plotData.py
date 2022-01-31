@@ -18,7 +18,6 @@ def contourMap(grdROMS, tlon, tlat, mydata, depthlevel, var):
     steps = abs(np.max(mydata) - np.min(mydata)) / 20.
     levels = np.arange(np.min(mydata), np.max(mydata) + steps, steps)
 
-
     if var == 'temperature':
         levels = np.arange(-2.0, 20.0, 1)
     if var == 'salinity':

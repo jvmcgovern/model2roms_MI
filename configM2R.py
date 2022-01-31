@@ -8,17 +8,21 @@ import numpy as np
 
 import grd
 
-__author__ = 'Trond Kristiansen'
-__email__ = 'trond.kristiansen@niva.no'
-__created__ = datetime(2009, 1, 30)
-__modified__ = datetime(2021, 11, 13)
+
+# __author__ = 'Trond Kristiansen'
+# __email__ = 'trond.kristiansen@niva.no'
+__author__ = 'Joe McGovern, Irish Marine Institute'
+__email__ = 'joe.mcgovern@marine.ie'
+__created__ = datetime(2009, 11, 11)
+# __modified__ = datetime(2021, 7, 27)
+__modified__ = datetime(2021, 12, 17)
 __version__ = "1.6"
 __status__ = "Development"
 
-
 # Changelog:
 # 27.07.2021 - Added option for running Hardangerfjord 160 m model
-# 13.11.2021 - Added option for using SODA 3.4.2 as input
+# 29.11.2021 - Adding option for running Marine Institute Celtic Sea Rutgers ROMS 1km model
+
 
 class Model2romsConfig(object):
 
@@ -32,6 +36,9 @@ class Model2romsConfig(object):
 
         elif self.outgrid_name == "A20":
             return subset[30, 90, -179, 360]
+
+        # elif self.outgrid_name == "CELSEA":
+        #     return subset[48, 54, -12, -4]
         else:
             raise Exception("Unable to subset {}".format(self.outgrid_name))
 
@@ -43,7 +50,7 @@ class Model2romsConfig(object):
                 self.start_year, self.start_month, self.end_year, self.end_month))
         logging.info('[M2R_configM2R]==> The following variables will be interpolated: {}'.format(self.global_varnames))
 
-        logging.info('[M2R_configM2R]=>All horisontal interpolations will be done using ESMF')
+        logging.info('[M2R_configM2R]=>All horizontal interpolations will be done using ESMF')
         logging.info('[M2R_configM2R] => Output files are written in format: {}'.format(self.output_format))
         logging.info('[M2R_configM2R] => Output grid file is: {}'.format(self.roms_grid_path))
 
@@ -79,6 +86,8 @@ class Model2romsConfig(object):
                 'SODA3': ['temperature', 'salinity', 'ssh', 'uvel', 'vvel'],
                 'SODA3_5DAY': ['temperature', 'salinity', 'ssh', 'uvel', 'vvel'],
                 'GLORYS': ['temperature', 'salinity', 'ssh', 'uvel', 'vvel', 'uice', 'vice', 'aice', 'hice'],
+                'IBI': ['temperature', 'salinity', 'ssh', 'uvel', 'vvel'],
+                # 'IBI_BGC': ['temperature', 'salinity', 'ssh', 'uvel', 'vvel'],
                 'WOAMONTHLY': ['temperature', 'salinity'],
                 'NORESM': ['temperature', 'salinity', 'ssh', 'uvel', 'vvel', 'ageice', 'uice', 'vice', 'aice', 'hice',
                            'hs',
@@ -87,20 +96,24 @@ class Model2romsConfig(object):
 
     # Define the corresponding name of the variables in the input dataset files. This list needs to correspond
     # exactly with the list given in the function define_global_varnames:
+
     def define_input_data_varnames(self):
         return {'SODA3': ['temp', 'salt', 'ssh', 'u', 'v'],
                 'SODA3_5DAY': ['temp', 'salt', 'ssh', 'u', 'v'],
                 'GLORYS': ['thetao', 'so', 'zos', 'uo', 'vo', 'usi', 'vsi',
                            'siconc', 'sithick'],
+                'IBI': ['thetao', 'so', 'zos', 'uo', 'vo'],
+                # 'IBI_BGC': ['thetao', 'so', 'zos', 'uo', 'vo'],
                 'NORESM': ['templvl', 'salnlvl', 'sealv', 'uvellvl', 'vvellvl', 'iage', 'uvel', 'vvel', 'aice', 'hi',
                            'hs', 'dissic', 'talk', 'po4', 'no3', 'si', 'o2']}[self.ocean_indata_type]
 
     # Define the path to where the  ROMS grid can be found
     def define_roms_grid_path(self):
         try:
-            return {'A20': '../oceanography/A20/Grid/A20niva_grd_v1.nc',
+            return {'A20': '/Users/trondkr/Dropbox/NIVA/A20/Grid/roms12_9km.nc',
                     'ROHO160': '../oceanography/NAUTILOS/Grid/norfjords_160m_grid.nc_A04.nc',
-                    'ROHO800': '../oceanography/ROHO800/Grid/ROHO800_grid_fix3.nc'}[self.outgrid_name]
+                    'ROHO800': '/Users/trondkr/Dropbox/NIVA/ROHO800/Grid/ROHO800_grid_fix3.nc',
+                    'CELSEA': '/home/pete/PycharmProjects/pyroms_MI/CELTIC_SEA/CELTIC_grd_v5.nc'}[self.outgrid_name]
         except KeyError:
             return KeyError
 
@@ -109,14 +122,16 @@ class Model2romsConfig(object):
         return {"A20": "a20",
                 "Antarctic": "Antarctic",
                 "ROHO160": "roho160",
-                "ROHO800": "roho800"}[self.outgrid_name]
+                "CELSEA": "Celtic Sea"}[self.outgrid_name]
 
     def define_ocean_forcing_data_path(self):
         try:
-            return {'SODA3': "../oceanography/copernicus-marine-data/SODA3.4.2/",
+            return {'SODA3': "/Volumes/DATASETS/SODA3.3.1/OCEAN/",
                     'SODA3_5DAY': "/Volumes/DATASETS/SODA2002/",  # "/cluster/projects/nn9297k/SODA3.3.2/",
                     'NORESM': "/cluster/projects/nn9412k/A20/FORCING/RCP85_ocean/",
-                    'GLORYS': "../oceanography/copernicus-marine-data/Global/"}[self.ocean_indata_type]
+                    'GLORYS': "../oceanography/copernicus-marine-data/Global/",
+                    'IBI': "/media/dskone/CELTIC/CMEMS_IBI/"}[self.ocean_indata_type]
+
         except KeyError:
             return KeyError
 
@@ -167,37 +182,47 @@ class Model2romsConfig(object):
         self.write_ice = False
 
         # Write biogeochemistry values to file
+        # self.write_bcg = True
         self.write_bcg = False
 
         # ROMS sometimes requires input of ice and ssh, but if you dont have these write files containing zeros to file
         self.set_2d_vars_to_zero = False
 
         # Apply filter to smooth the 2D fields after interpolation (time consuming but enhances results)
+        # self.use_filter = False
+        # Going to try using filter first, will switch off if it results in unsatisfactory results [JVMCG]
         self.use_filter = True
 
-        # Format to write the ouput to: 'NETCDF4', 'NETCDF4_CLASSIC', 'NETCDF3_64BIT', or 'NETCDF3_CLASSIC'
+        # Format to write the output to: 'NETCDF4', 'NETCDF4_CLASSIC', 'NETCDF3_64BIT', or 'NETCDF3_CLASSIC'
         # Using NETCDF4 automatically turns on compression of files (ZLIB)
         self.output_format = 'NETCDF4'
         self.use_zlib = True
 
         # Frequency of the input data: usually monthly
-        self.time_frequency_inputdata = "month"  # Possible options: "month", "hour", "5days"
+        # self.time_frequency_inputdata = "month"  # Possible options: "month", "hour", "5days"
+        self.time_frequency_inputdata = "daily"  # Trying daily  # Possible options: "month", "hour", "5days"
+
+        # Path to where results files should be stored
+        # self.outdir = "../oceanography/NAUTILOS/"
+        # self.outdir = "/home/pete/PycharmProjects/pyroms_MI/CELTIC_SEA/"
+        self.outdir = "/media/dskone/CELTIC/CMEMS_IBI/"
+        if not os.path.exists(self.outdir):
+            os.makedirs(self.outdir, exist_ok=True)
 
         # IN GRIDTYPES ------------------------------------------------------------------------------
         # Define what grid type you want to interpolate from (input MODEL data)
         # Currently supported options:
-        # 1. NORESM, 2. GLORYS, 3. SODA3, 4. SODA3_5DAY
-        self.ocean_indata_type = 'SODA3'
+        # 1. NORESM, 2. GLORYS, 3. SODA3, 4. SODA3_5DAY, 5. IBI [new addition, Joe McGovern]
+        self.ocean_indata_type = 'IBI'
         self.atmos_indata_type = 'ERA5'
-        
-        if self.ocean_indata_type == "SODA3":
-            self.soda_version="3.4.2"
-            
-        # Define contact info for final NetCDF files
-        self.author_name = "Trond Kristiansen"
-        self.author_email = "trond.kristiansen (at) niva.no"
 
-        # Define what grid type you wnat to interpolate from: Can be Z for SIGMA for ROMS
+        # Define contact info for final NetCDF files
+        # self.author_name = "Trond Kristiansen"
+        # self.author_email = "trond.kristiansen (at) niva.no"
+        self.author_name = "Joe McGovern"
+        self.author_email = "joe.mcgovern (at) marine.ie"
+
+        # Define what grid type you want to interpolate from: Can be Z for SIGMA for ROMS
         # vertical coordinate system or ZLEVEL. also define the name of the dimensions in the input files.
         # Options:
         # 1. SIGMA (not properly implemented yet), 2. ZLEVEL
@@ -216,7 +241,7 @@ class Model2romsConfig(object):
         self.lon_name_v = "longitude"
         self.lat_name_v = "latitude"
 
-        if self.ocean_indata_type in ['SODA3_5DAY','SODA3']:
+        if self.ocean_indata_type == 'SODA3_5DAY':
             self.lon_name = "xt_ocean"
             self.lat_name = "yt_ocean"
             self.depth_name = "st_ocean"
@@ -228,19 +253,14 @@ class Model2romsConfig(object):
 
         self.time_name = "time"
         self.realm = "ocean"
-        self.fillvaluein = -1.e20
+        self.fillvaluein = -32767
 
         # OUT GRIDTYPES ------------------------------------------------------------------------------
         # Define what grid type you want to interpolate to
         # Options: This is just the name of your grid used to identify your selection later
-        self.outgrid_name = 'A20'  # "ROHO800", "A20", "ROHO160"
+        self.outgrid_name = 'CELSEA'  # "ROHO800", "A20"
         self.outgrid_type = "ROMS"
-        
-        # Path to where results files should be stored defined by grid name
-        self.outdir = "../oceanography/{}/".format(self.outgrid_name)
-        if not os.path.exists(self.outdir):
-            os.makedirs(self.outdir, exist_ok=True)
-            
+
         # Subset input data. If you have global data you may want to seubset these to speed up reading. Make
         # sure that your input data are cartesian (0-360 or -180:180, -90:90)
         self.subset_indata = False
@@ -248,14 +268,16 @@ class Model2romsConfig(object):
             self.subset = self.define_subset_for_indata()
 
         # Define number of output depth levels
-        self.nlevels = 40
+        # self.nlevels = 40
+        self.nlevels = 20
         # Define the grid stretching properties (leave default if uncertain what to pick)
-        self.vstretching = 4
+        self.vstretching = 2
         self.vtransform = 2
         self.theta_s = 7.0
-        self.theta_b = 0.1
-        self.tcline = 250.0
-        self.hc = 250
+        # self.theta_b = 0.1
+        self.theta_b = 0
+        self.tcline = 20
+        self.hc = 20
 
         # PATH TO FORCING DATA --------------------------------------------------------------------
         # Define the path to the input data
@@ -267,15 +289,16 @@ class Model2romsConfig(object):
         self.roms_grid_path = self.define_roms_grid_path()
 
         # Climatology is only monthly and model2roms needs to know this
-        self.isclimatology = False
+        # self.isclimatology = False
+        self.isclimatology = True
 
         # DATE AND TIME DETAILS ---------------------------------------------------------
         # Define the period to create forcing for
-        self.start_year = 1980
-        self.end_year = 2020
+        self.start_year = 2018
+        self.end_year = 2018
         self.start_month = 1
-        self.end_month = 12
-        self.start_day = 15
+        self.end_month = 3
+        self.start_day = 1
         self.end_day = 31
 
         if int(calendar.monthrange(self.start_year, self.start_month)[1]) < self.start_day:
@@ -319,6 +342,7 @@ class Model2romsConfig(object):
             except ImportError:
                 raise ImportError("Unable to import ESMF")
             logging.info('[M2R_configRunM2R] Starting logfile for ESMF')
+            # esmf.manager(debug=True)
             ESMF.Manager(debug=True)
 
             # Create the grid object for the output grid

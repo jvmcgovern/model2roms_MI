@@ -4,12 +4,14 @@ from datetime import datetime
 import compile
 import configM2R
 
+
 class TestModel2roms(unittest.TestCase):
 
     def setUp(self):
         compile.compilefortran("gfortran")
         self.configM2R = configM2R.Model2romsConfig()
         self.assertIsNotNone(self.configM2R)
+
 
 class TestConfigM2R(TestModel2roms):
 
@@ -29,6 +31,7 @@ class TestConfigM2R(TestModel2roms):
     def test_define_ocean_forcing_data_path_returns_error_when_missing_dataset(self):
         self.configM2R.ocean_indata_type = "not_valid"
         self.assertEqual(self.configM2R.define_ocean_forcing_data_path(), KeyError)
+
 
 if __name__ == "__main__":
     unittest.main()

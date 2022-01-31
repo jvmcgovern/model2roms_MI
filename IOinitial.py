@@ -156,17 +156,17 @@ def create_init_file(confM2R, ntime, var, data1=None, data2=None, data3=None, da
         vnc[:] = grdROMS.Cs_rho
 
         vnc = f1.createVariable('hc', 'd')
-        vnc.long_name = "S-coordinate parameter, critical depth";
+        vnc.long_name = "S-coordinate parameter, critical depth"
         vnc.units = "meter"
         vnc[:] = grdROMS.hc
 
         vnc = f1.createVariable('z_r', 'd', ('s_rho', 'eta_rho', 'xi_rho',), zlib=myzlib, fill_value=grdROMS.fillval)
-        vnc.long_name = "Sigma layer to depth matrix";
+        vnc.long_name = "Sigma layer to depth matrix"
         vnc.units = "meter"
         vnc[:, :, :] = grdROMS.z_r
 
         vnc = f1.createVariable('Tcline', 'd')
-        vnc.long_name = "S-coordinate surface/bottom layer width";
+        vnc.long_name = "S-coordinate surface/bottom layer width"
         vnc.units = "meter"
         vnc[:] = grdROMS.tcline
 
@@ -183,7 +183,7 @@ def create_init_file(confM2R, ntime, var, data1=None, data2=None, data3=None, da
         vnc.units = "radian"
 
         v_time = f1.createVariable('ocean_time', 'd', ('ocean_time',), zlib=myzlib, fill_value=grdROMS.fillval)
-        
+
         v_time.long_name = 'seconds since 1948-01-01 00:00:00'
         v_time.units = 'seconds since 1948-01-01 00:00:00'
         v_time.field = 'time, scalar, series'
@@ -236,7 +236,6 @@ def create_init_file(confM2R, ntime, var, data1=None, data2=None, data3=None, da
         v_ubar.time = "ocean_time"
 
         if confM2R.write_bcg:
-
             v_o3_c = f1.createVariable('O3_c', 'f', ('ocean_time', 's_rho', 'eta_rho', 'xi_rho',), zlib=myzlib,
                                        fill_value=grdROMS.fillval)
             v_o3_c.long_name = "carbonate/total dissolved inorganic carbon"
@@ -245,7 +244,7 @@ def create_init_file(confM2R, ntime, var, data1=None, data2=None, data3=None, da
             v_o3_c.field = "O3_c, scalar, series"
 
             v_o3_ta = f1.createVariable('O3_TA', 'f', ('ocean_time', 's_rho', 'eta_rho', 'xi_rho',), zlib=myzlib,
-                                       fill_value=grdROMS.fillval)
+                                        fill_value=grdROMS.fillval)
             v_o3_ta.long_name = "carbonate/bioalkalinity"
             v_o3_ta.time = "ocean_time"
             v_o3_ta.units = "umol/kg"
@@ -372,11 +371,11 @@ def create_init_file(confM2R, ntime, var, data1=None, data2=None, data3=None, da
             sig22.field = "ice stress 22, scalar, series"
 
             vnc = f1.createVariable('tau_iw', 'd')
-            vnc.long_name = "Tau_iw";
+            vnc.long_name = "Tau_iw"
             vnc.units = "unknown"
 
             vnc = f1.createVariable('chu_iw', 'd')
-            vnc.long_name = "Chu_iw";
+            vnc.long_name = "Chu_iw"
             vnc.units = "unknown"
 
             v_tomk = f1.createVariable('t0mk', 'f', ('ocean_time', 'eta_rho', 'xi_rho',), zlib=myzlib,
@@ -433,14 +432,14 @@ def create_init_file(confM2R, ntime, var, data1=None, data2=None, data3=None, da
         f1.variables['vbar'][ntime, :, :] = data4
 
     if confM2R.write_bcg:
-        if var in ['O3_c','O3_TA','N1_p','N3_n','N5_s','O2_o']:
+        if var in ['O3_c', 'O3_TA', 'N1_p', 'N3_n', 'N5_s', 'O2_o']:
             data1 = np.where(abs(data1) < 0, 0, data1)
-            if confM2R.ocean_indata_type== "NORESM":
-                if var=="O3_TA": 
-                    data1=data1*1.0e6/1025.
-                else: 
-                    data1=data1*1.0e3
-            f1.variables[var][ntime,:,:,:] = data1
+            if confM2R.ocean_indata_type == "NORESM":
+                if var == "O3_TA":
+                    data1 = data1 * 1.0e6 / 1025.
+                else:
+                    data1 = data1 * 1.0e3
+            f1.variables[var][ntime, :, :, :] = data1
 
     if confM2R.write_ice:
         if var.lower() == "ageice":
@@ -452,7 +451,7 @@ def create_init_file(confM2R, ntime, var, data1=None, data2=None, data3=None, da
             f1.variables[var.lower()][ntime, :, :] = data1 / 100.
 
         if var.lower() == 'aice':
-            fraction_to_percent=100.0
+            fraction_to_percent = 100.0
 
             data1 = np.where(abs(data1) > 120, 0, data1)
             data1 = np.where(data1 < 0, 0, data1)
